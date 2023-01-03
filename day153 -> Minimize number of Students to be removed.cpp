@@ -43,33 +43,47 @@ Constraints:
 
 
 class Solution {
-    public:
-    
-    int lis(vector<int> &a) {
+  public:
+
+    //objective is to find a series that is sorted in ascending order rom the entire given array
+    // in order to find ascending order we can neglate the larger elements in between
+
+    int possibleStudent(vector<int> &v){
         
-        vector<int> v;
-        if(v.size()==0) 
-            v.push_back(a[0]);
+        //create  vector for  possible students
+        vector<int> vec;
+        
+        //push the first student
+        vec.push_back(v[0]);
+        
+        for(int i=1;i<v.size();i++){
+            //check if previous is smaller then next then push next in possible students vector
+            if(v[i] > vec.back())
+               vec.push_back(v[i]);
             
-        for(int i=1;i<a.size();i++) {
-            
-            if(a[i]>v.back())
-                v.push_back(a[i]);
-            else {
-                int ind=lower_bound(v.begin(), v.end(), a[i])-v.begin();
-                v[ind]=a[i];
+            //otherwise find proper position for next student in the possible student vector
+            else{
+                int index = lower_bound(vec.begin(),vec.end(),v[i]) - vec.begin();
+                vec[index] = v[i];
             }
         }
-        return v.size();
-    }
-    
-    int removeStudents(int arr[], int n) {
-        vector<int> a;
-        for(int i=0;i<n;i++) 
-            a.push_back(arr[i]);
-            
-        int lisSize=lis(a);
         
-        return n-lisSize;
+        return vec.size();
+    }
+   
+    int removeStudents(int H[], int N) {
+       
+       //push the array data into a temporary vector 
+        vector<int> v;
+        for(int i=0;i<N;i++){
+            v.push_back(H[i]);
+        }
+        
+        //find possible number of student in assembly line
+        int n = possibleStudent(v);
+        
+        //return actual length - possible student length
+        return N-n;
     }
 };
+
