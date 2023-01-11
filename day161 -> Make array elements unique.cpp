@@ -47,34 +47,22 @@ class Solution {
     long long int minIncrements(vector<int> arr, int N) {
        
         //using map   
-        // unordered_map<int,int> mp;
-        // for(int i=0;i<N;i++){
-        //     mp[arr[i]]++;
-        // }
-        
-        // long long int count = 0;
-                
-        // for(int i=0;i<N;i++){
-        //     if(mp[arr[i]] == 1){
-        //         continue;
-        //     }
-        //     else{
-        //         int temp = arr[i];
-        //         while(mp.find(temp) != mp.end()){
-        //             count++;
-        //             temp++;
-        //         }
-        //         mp[temp]++;
-        //         mp[arr[i]]--;
-        //     }
-        // }
-        
-        // return count;
+        unordered_map<int,int> mp;
+        long long int count = 0;
+        for(int i=0;i<N;i++){
+            int temp = arr[i];
+            while(mp.find(temp) != mp.end()){
+                count++;
+                temp++;
+            } 
+            mp[temp]=i;
+        }
+       
+        return count;       
         
         // using sets
         set<int> s;
         long long int count = 0;
-        
         for(int i=0;i<N;i++){
             int temp = arr[i];
             while(s.find(temp) != s.end()){
